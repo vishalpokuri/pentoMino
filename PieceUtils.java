@@ -64,4 +64,27 @@ public class PieceUtils {
     }
     return sb.toString();
   }
+
+  public static int[] emptyCellonBoard(int[][] board) {
+    for (int i = 0; i < 6; i++) {
+      for (int j = 0; j < 9; j++) {
+        if (board[i][j] == 0) {
+          return new int[] { i, j };
+        }
+      }
+    }
+    return new int[] { Integer.MIN_VALUE, Integer.MIN_VALUE };
+  }
+
+  // collision function, and piece start index picker
+  public static int[] touchablePieceIndex(int[][] piece) {
+    for (int i = 0; i < piece.length; i++) {
+      for (int j = 0; j < piece[0].length; j++) {
+        if (piece[i][j] == 1) {
+          return new int[] { i, j };
+        }
+      }
+    }
+    return new int[] { Integer.MIN_VALUE, Integer.MIN_VALUE };
+  }
 }

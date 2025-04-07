@@ -16,6 +16,9 @@ public class Pintomino {
         }
       }
     }
+    // used initialization
+    int[] used = new int[10];
+    Arrays.fill(used, 0);
 
     // pieces initialization
     int[][] pieceI = { { 1 }, { 1 }, { 1 }, { 1 }, { 1 } };
@@ -40,6 +43,32 @@ public class Pintomino {
     ArrayList<int[][]> orientsPieceL3x3 = PieceUtils.getAllOrientations(pieceL3x3);
     ArrayList<int[][]> orientsPieceU = PieceUtils.getAllOrientations(pieceU);
     ArrayList<int[][]> orientsPieceT = PieceUtils.getAllOrientations(pieceT);
+    // PieceUtils.display(orientsPieceBaton.get(2));
+
+    // int[] cell = PieceUtils.touchablePieceIndex(orientsPieceBaton.get(2));
+    // System.out.println(cell[0] + " " + cell[1]);
+  }
+
+  public static void recursion(int[][] board) {
+    // basecase
+    int[] cell = PieceUtils.emptyCellonBoard(board);
+    if (cell[0] == Integer.MIN_VALUE && cell[1] == Integer.MIN_VALUE) {
+      // solution validity check
+
+      PieceUtils.display(board);
+      return;
+    }
+
+    /*
+     * Try to fit the item, if fits
+     * updated used
+     * go to next piece
+     * 
+     * If doesnt fit
+     * updated used back to 0 with its right index
+     * try with another orientation -> if exhausted, try with another index
+     * 
+     */
 
   }
 
