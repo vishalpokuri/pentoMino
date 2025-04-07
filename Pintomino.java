@@ -3,68 +3,6 @@ import java.util.*;
 public class Pintomino {
   public static int[][] board;
 
-  public static void display(int[][] item) {
-    for (var x : item) {
-      for (var i : x) {
-        if (i == 1) {
-
-          System.out.print(i + " ");
-        } else {
-          System.out.print("  ");
-
-        }
-      }
-      System.out.println();
-    }
-  }
-
-  public static ArrayList<int[][]> getAllOrientations(int[][] piece) {
-    ArrayList<int[][]> results = new ArrayList<>();
-    Set<String> seen = new HashSet<>();
-
-    // Logic to remove duplicates
-    // Step -1: Use serialize function to convert into a string, check if it
-    // not contains in the set, add or skip
-
-    for (int i = 0; i < 4; i++) {
-      piece = rotate(piece);
-      if (!seen.contains(serialise(piece))) {
-        results.add(piece);
-        seen.add(serialise(piece));
-      }
-    }
-    // Remove duplicates (optional if you want to deduplicate orientations)
-    // for (var item : results) {
-    // display(item);
-    // System.out.println();
-    // }
-    return results;
-  }
-
-  public static int[][] rotate(int[][] piece) {
-    int row = piece.length;
-    int col = piece[0].length;
-
-    int[][] rotated = new int[col][row];
-    for (int i = 0; i < row; i++) {
-      for (int j = 0; j < col; j++) {
-        rotated[j][row - 1 - i] = piece[i][j];
-      }
-    }
-    return rotated;
-  }
-
-  public static String serialise(int[][] orientation) {
-    StringBuilder sb = new StringBuilder();
-    for (int[] row : orientation) {
-      for (int item : row) {
-        sb.append(item);
-      }
-      sb.append(";");
-    }
-    return sb.toString();
-  }
-
   public static void main(String args[]) {
     board = new int[6][9];
 
@@ -92,16 +30,16 @@ public class Pintomino {
     int[][] pieceTap = { { 0, 1, 0 }, { 1, 1, 1 }, { 0, 0, 1 } };
 
     // Create all orentations
-    ArrayList<int[][]> orientsPieceTap = getAllOrientations(pieceTap);
-    ArrayList<int[][]> orientsPieceI = getAllOrientations(pieceI);
-    ArrayList<int[][]> orientsPieceBaton = getAllOrientations(pieceBaton);
-    ArrayList<int[][]> orientsPieceL2x4 = getAllOrientations(pieceL2x4);
-    ArrayList<int[][]> orientsPieceBend2x4 = getAllOrientations(pieceBend2x4);
-    ArrayList<int[][]> orientsPieceBend3x3 = getAllOrientations(pieceBend3x3);
-    ArrayList<int[][]> orientsPieceBuilding = getAllOrientations(pieceBuilding);
-    ArrayList<int[][]> orientsPieceL3x3 = getAllOrientations(pieceL3x3);
-    ArrayList<int[][]> orientsPieceU = getAllOrientations(pieceU);
-    ArrayList<int[][]> orientsPieceT = getAllOrientations(pieceT);
+    ArrayList<int[][]> orientsPieceTap = PieceUtils.getAllOrientations(pieceTap);
+    ArrayList<int[][]> orientsPieceI = PieceUtils.getAllOrientations(pieceI);
+    ArrayList<int[][]> orientsPieceBaton = PieceUtils.getAllOrientations(pieceBaton);
+    ArrayList<int[][]> orientsPieceL2x4 = PieceUtils.getAllOrientations(pieceL2x4);
+    ArrayList<int[][]> orientsPieceBend2x4 = PieceUtils.getAllOrientations(pieceBend2x4);
+    ArrayList<int[][]> orientsPieceBend3x3 = PieceUtils.getAllOrientations(pieceBend3x3);
+    ArrayList<int[][]> orientsPieceBuilding = PieceUtils.getAllOrientations(pieceBuilding);
+    ArrayList<int[][]> orientsPieceL3x3 = PieceUtils.getAllOrientations(pieceL3x3);
+    ArrayList<int[][]> orientsPieceU = PieceUtils.getAllOrientations(pieceU);
+    ArrayList<int[][]> orientsPieceT = PieceUtils.getAllOrientations(pieceT);
 
   }
 
