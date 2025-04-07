@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.util.*;
 
 public class Pintomino {
   public static int[][] board;
@@ -20,16 +20,24 @@ public class Pintomino {
 
   public static ArrayList<int[][]> getAllOrientations(int[][] piece) {
     ArrayList<int[][]> results = new ArrayList<>();
+    Set<String> seen = new HashSet<>();
+
+    // Logic to remove duplicates
+    // Step -1: Use serialize function to convert into a string, check if it
+    // not contains in the set, add or skip
 
     for (int i = 0; i < 4; i++) {
       piece = rotate(piece);
-      results.add(piece);
+      if (!seen.contains(serialise(piece))) {
+        results.add(piece);
+        seen.add(serialise(piece));
+      }
     }
     // Remove duplicates (optional if you want to deduplicate orientations)
-    for (var item : results) {
-      display(item);
-      System.out.println();
-    }
+    // for (var item : results) {
+    // display(item);
+    // System.out.println();
+    // }
     return results;
   }
 
@@ -44,6 +52,17 @@ public class Pintomino {
       }
     }
     return rotated;
+  }
+
+  public static String serialise(int[][] orientation) {
+    StringBuilder sb = new StringBuilder();
+    for (int[] row : orientation) {
+      for (int item : row) {
+        sb.append(item);
+      }
+      sb.append(";");
+    }
+    return sb.toString();
   }
 
   public static void main(String args[]) {
@@ -83,8 +102,6 @@ public class Pintomino {
     ArrayList<int[][]> orientsPieceL3x3 = getAllOrientations(pieceL3x3);
     ArrayList<int[][]> orientsPieceU = getAllOrientations(pieceU);
     ArrayList<int[][]> orientsPieceT = getAllOrientations(pieceT);
-
-    // Need to find a logic to remove duplicates
 
   }
 
