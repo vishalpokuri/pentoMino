@@ -1,7 +1,9 @@
 import java.util.*;
 
-public class Pintomino {
+public class Pentomino {
   public static int[][] board;
+  public static int[] used;
+  public static int[] usedOtn;
   public static ArrayList<ArrayList<int[][]>> allOrientations;
 
   public static void main(String args[]) {
@@ -10,9 +12,11 @@ public class Pintomino {
     // Board filling
     PieceUtils.initialiseBoard(board);
     PieceUtils.display(board);
+    System.out.println();
 
     // used pieces tracking
-    int[] used = new int[10];
+    used = new int[10];
+    usedOtn = new int[10];
     Arrays.fill(used, 0);
 
     // All the orientations with indexing
@@ -40,34 +44,43 @@ public class Pintomino {
     PieceUtils.fixPositions(idxDate, board);
     PieceUtils.fixPositions(idxDay, board);
 
+    recursion(board);
+
     // int[] cell = PieceUtils.touchablePieceIndex(orientsPieceBaton.get(2));
     // System.out.println(cell[0] + " " + cell[1]);
   }
 
-  // need to get the anchored values on the board
-
-  public static void recursion(int[][] board) {
-    // basecase
-
+  public static boolean recursion(int[][] board) {
+    // Find the first empty cell
     int[] cell = PieceUtils.emptyCellonBoard(board);
-    if (cell[0] == Integer.MIN_VALUE && cell[1] == Integer.MIN_VALUE) {
-      // solution validity check
 
+    // basecase
+    if (cell[0] == Integer.MIN_VALUE) {
       PieceUtils.display(board);
-      return;
+      return true; // Return true to indicate we found a solution
     }
 
-    /*
-     * Try to fit the item, if fits
-     * updated used
-     * go to next piece
-     * 
-     * If doesnt fit
-     * updated used back to 0 with its right index
-     * try with another orientation -> if exhausted, try with another index
-     * 
-     */
+    // recursion
+    for (int i = 0; i < 10; i++) {
+      if (used[i] == 1)
+        continue;
 
+      ArrayList<int[][]> otnsOfi = allOrientations.get(i);
+      for (int j = 0; j < otnsOfi.size(); j++) {
+        int[][] selectedPiece = otnsOfi.get(j);
+
+        if (PieceUtils.placePiece(board, selectedPiece, cell)) {
+          used[i] = 1;
+          if (recursion(board)) {
+            return true;
+          }
+
+          used[i] = 0;
+          PieceUtils.removePiece(board, selectedPiece, cell);
+        }
+      }
+    }
+
+    return false;
   }
-
 }
