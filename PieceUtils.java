@@ -87,4 +87,33 @@ public class PieceUtils {
     }
     return new int[] { Integer.MIN_VALUE, Integer.MIN_VALUE };
   }
+
+  public static boolean collision(int[][] board, int[][] piece) {
+    int[] cell = emptyCellonBoard(board); // [row, col]
+    int[] anchor = touchablePieceIndex(piece); // [row, col] in the piece
+
+    int baseRow = cell[0] - anchor[0];
+    int baseCol = cell[1] - anchor[1];
+
+    for (int i = 0; i < piece.length; i++) {
+      for (int j = 0; j < piece[0].length; j++) {
+        if (piece[i][j] == 1) {
+          int r = baseRow + i;
+          int c = baseCol + j;
+          // boundary check
+          if (r < 0 || r >= board.length || c < 0 || c >= board[0].length) {
+            return true;
+          }
+          // collision check
+          if (board[r][c] + piece[i][j] != 1) {
+            return true;
+          }
+        }
+      }
+    }
+
+    return false;
+    // TODO: missing update the piece on the board by filling ones
+  }
+
 }
