@@ -11,7 +11,7 @@ public class Pentomino {
 
     // Board filling
     PieceUtils.initialiseBoard(board);
-    PieceUtils.display(board);
+
     System.out.println();
 
     // used pieces tracking
@@ -23,17 +23,13 @@ public class Pentomino {
     allOrientations = PieceUtils.returnAllOrientations();
 
     // Take user input
-    // Scanner scan = new Scanner(System.in);
-    // System.out.println("Enter the date you want");
-    // String date = scan.nextLine();
-    // System.out.println("Enter the day you want");
-    // String day = scan.nextLine();
-    // System.out.println("Enter the month you want");
-    // String month = scan.nextLine();
-
-    String date = "31";
-    String day = "Tue";
-    String month = "Mar";
+    Scanner scan = new Scanner(System.in);
+    System.out.println("Enter the date you want");
+    String date = scan.nextLine();
+    System.out.println("Enter the day you want");
+    String day = scan.nextLine();
+    System.out.println("Enter the month you want");
+    String month = scan.nextLine();
 
     int[] idxDate = PieceUtils.findrevealMapIdx(date);
     int[] idxDay = PieceUtils.findrevealMapIdx(day);
@@ -45,9 +41,7 @@ public class Pentomino {
     PieceUtils.fixPositions(idxDay, board);
 
     recursion(board);
-
-    // int[] cell = PieceUtils.touchablePieceIndex(orientsPieceBaton.get(2));
-    // System.out.println(cell[0] + " " + cell[1]);
+    scan.close();
   }
 
   public static boolean recursion(int[][] board) {
@@ -56,8 +50,10 @@ public class Pentomino {
 
     // basecase
     if (cell[0] == Integer.MIN_VALUE) {
-      PieceUtils.display(board);
-      return true; // Return true to indicate we found a solution
+      System.out.println("Solution found!");
+
+      PieceUtils.displayColorful(board);
+      return true;
     }
 
     // recursion
@@ -69,7 +65,7 @@ public class Pentomino {
       for (int j = 0; j < otnsOfi.size(); j++) {
         int[][] selectedPiece = otnsOfi.get(j);
 
-        if (PieceUtils.placePiece(board, selectedPiece, cell)) {
+        if (PieceUtils.placePiece(board, selectedPiece, cell, i + 1)) { // also sending the pieceId
           used[i] = 1;
           if (recursion(board)) {
             return true;

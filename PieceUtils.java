@@ -147,11 +147,7 @@ public class PieceUtils {
         seen.add(serialise(piece));
       }
     }
-    // Remove duplicates (optional if you want to deduplicate orientations)
-    // for (var item : results) {
-    // display(item);
-    // System.out.println();
-    // }
+
     return results;
   }
 
@@ -202,7 +198,7 @@ public class PieceUtils {
     return new int[] { Integer.MIN_VALUE, Integer.MIN_VALUE };
   }
 
-  public static boolean placePiece(int[][] board, int[][] piece, int[] cell) {
+  public static boolean placePiece(int[][] board, int[][] piece, int[] cell, int pieceId) {
     int[] anchor = touchablePieceIndex(piece); // [row, col] in the piece
     int baseRow = cell[0] - anchor[0];
     int baseCol = cell[1] - anchor[1];
@@ -216,7 +212,7 @@ public class PieceUtils {
         if (piece[i][j] == 1) {
           int r = baseRow + i;
           int c = baseCol + j;
-          board[r][c] = 1;
+          board[r][c] = pieceId;
         }
       }
     }
@@ -266,6 +262,40 @@ public class PieceUtils {
     }
 
     return true;
+  }
+
+  public static void displayColorful(int[][] board) {
+    // ANSI color codes for background colors
+    String[] colors = {
+        "\u001B[41m", // Red
+        "\u001B[42m", // Green
+        "\u001B[43m", // Yellow
+        "\u001B[44m", // Blue
+        "\u001B[45m", // Magenta
+        "\u001B[46m", // Cyan
+        "\u001B[47m", // White
+        "\u001B[100m", // Bright Black
+        "\u001B[101m", // Bright Red
+        "\u001B[102m" // Bright Green
+    };
+    String reset = "\u001B[0m";
+
+    for (int i = 0; i < board.length; i++) {
+      for (int j = 0; j < board[0].length; j++) {
+        if (board[i][j] == -1) {
+          // Special character for date/month/day cells
+          System.out.print("  ");
+        } else if (board[i][j] == 0) {
+          // Empty cell
+          System.out.print("    ");
+        } else {
+          // The board already contains the piece ID
+          int pieceId = board[i][j];
+          System.out.print(colors[pieceId - 1] + "  " + reset);
+        }
+      }
+      System.out.println();
+    }
   }
 
 }
